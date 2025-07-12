@@ -3,7 +3,7 @@
 ## 👥 Team - 2088
 - **Team Leader – Rohit Singh**  
  - **email - rs965198@gmail.**
- - **video LINK - https://drive.google.com/file/d/18DcxV_n_zMHofG5D0WBWZQjs2ulALKtT/view?usp=drive_link**
+ - **video LINK - https://drive.google.com/file/d/1hHrSNpMWRfpZWrIoCO7ptpKyDOUOfwQp/view?usp=drive_link**
 
 A full-stack web application that makes it effortless for communities to swap pre-loved clothes and keep them in circulation. Users can list garments they no longer need, browse items posted by neighbours, and arrange quick swaps — reducing textile waste and promoting sustainable fashion.
 
