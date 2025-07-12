@@ -1,5 +1,9 @@
 # ReWear – Community Clothing Exchange
 
+## 👥 Team - 2088
+- **Team Leader – Rohit Singh**  
+ - **email - rs965198@gmail.**
+
 A full-stack web application that makes it effortless for communities to swap pre-loved clothes and keep them in circulation. Users can list garments they no longer need, browse items posted by neighbours, and arrange quick swaps — reducing textile waste and promoting sustainable fashion.
 
 ---
@@ -97,9 +101,7 @@ backend/
 
 ---
 
-## 👥 Team
-- **Team Leader – Rohit Singh**  
-  rs965198@gmail.com
+
 
 ---
 
