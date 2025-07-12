@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(240, 10%, 3.9%);
+  --muted: hsl(240, 4.8%, 95.9%);
+  --muted-foreground: hsl(240, 3.7%, 15.9%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(240, 10%, 3.9%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(240, 10%, 3.9%);
+  --border: hsl(240, 5.9%, 90%);
+  --input: hsl(240, 5.9%, 90%);
+  --primary: hsl(142, 76%, 36%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(240, 4.8%, 95.9%);
+  --secondary-foreground: hsl(240, 5.9%, 10%);
+  --accent: hsl(240, 4.8%, 95.9%);
+  --accent-foreground: hsl(240, 5.9%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(142, 76%, 36%);
+  --radius: 0.5rem;
+  
+  /* Custom brand colors */
+  --brand-green: hsl(142, 76%, 36%);
+  --brand-emerald: hsl(158, 64%, 52%);
+  --brand-amber: hsl(43, 96%, 56%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(142, 76%, 36%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(142, 76%, 36%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Custom utility classes */
+.brand-green {
+  color: var(--brand-green);
+}
+
+.bg-brand-green {
+  background-color: var(--brand-green);
+}
+
+.border-brand-green {
+  border-color: var(--brand-green);
+}
+
+.brand-amber {
+  color: var(--brand-amber);
+}
+
+.bg-brand-amber {
+  background-color: var(--brand-amber);
+}
+
+.text-brand-amber {
+  color: var(--brand-amber);
+}
+
+/* Hover effects */
+.hover\:bg-green-700:hover {
+  background-color: hsl(142, 81%, 26%);
+}
+
+.hover\:text-brand-green:hover {
+  color: var(--brand-green);
+}
+
+/* Focus states */
+.focus\:ring-brand-green:focus {
+  --tw-ring-color: var(--brand-green);
+}
+
+.focus\:border-brand-green:focus {
+  border-color: var(--brand-green);
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-brand {
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-emerald));
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(240, 4.8%, 95.9%);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--brand-green);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(142, 81%, 26%);
+}
