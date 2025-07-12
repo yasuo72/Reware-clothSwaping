@@ -106,15 +106,13 @@ backend/
 
 ## 📸 UI Screenshots
 
-![Admin Dashboard](frontend1/ClothSwap/assets/Admin%20-%20Copy.png)
-![Landing Page](frontend1/ClothSwap/assets/Landing%20Page%20-%20Copy%20-%20Copy.jpg)
-![Listings](frontend1/ClothSwap/assets/Listings%20-%20Copy%20-%20Copy.png)
-![Login Page 1](frontend1/ClothSwap/assets/Login%20Page%20-%20Copy%20%282%29.png)
-![Login Page 2](frontend1/ClothSwap/assets/Login%20Page%20-%20Copy%20-%20Copy.png)
-![Orders](frontend1/ClothSwap/assets/Orders%20-%20Copy%20-%20Copy.png)
-![Personal Info](frontend1/ClothSwap/assets/Personal%20info%20-%20Copy%20-%20Copy.jpg)
-![Product Detail](frontend1/ClothSwap/assets/Product%20detail%20Page%20-%20Copy%20-%20Copy.png)
-![Products List](frontend1/ClothSwap/assets/Products%20List%20page%20-%20Copy%20-%20Copy.png)
+| | |
+|---|---|
+| ![Admin Dashboard](frontend1/ClothSwap/assets/Admin%20-%20Copy.png) | ![Landing Page](frontend1/ClothSwap/assets/Landing%20Page%20-%20Copy%20-%20Copy.jpg) |
+| ![Listings](frontend1/ClothSwap/assets/Listings%20-%20Copy%20-%20Copy.png) | ![Login Page 1](frontend1/ClothSwap/assets/Login%20Page%20-%20Copy%20%282%29.png) |
+| ![Login Page 2](frontend1/ClothSwap/assets/Login%20Page%20-%20Copy%20-%20Copy.png) | ![Orders](frontend1/ClothSwap/assets/Orders%20-%20Copy%20-%20Copy.png) |
+| ![Personal Info](frontend1/ClothSwap/assets/Personal%20info%20-%20Copy%20-%20Copy.jpg) | ![Product Detail](frontend1/ClothSwap/assets/Product%20detail%20Page%20-%20Copy%20-%20Copy.png) |
+| ![Products List](frontend1/ClothSwap/assets/Products%20List%20page%20-%20Copy%20-%20Copy.png) |  |
 
 ---
 
