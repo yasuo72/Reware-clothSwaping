@@ -40,14 +40,44 @@
     <p id="uploadStatus"></p>
   </div>
 
+  <div class="box hidden" id="swapBox">
+    <h2>Swap / Redeem</h2>
+    <input id="swapItemId" placeholder="Item ID to request" />
+    <select id="swapMethod">
+      <option value="swap">Swap</option>
+      <option value="redeem">Redeem</option>
+    </select>
+    <button onclick="requestSwap()">Request</button>
+    <hr/>
+    <input id="approveSwapId" placeholder="Swap ID to approve" />
+    <button onclick="approveSwap()">Approve Swap</button>
+    <hr/>
+    <button onclick="getMySwaps()">View My Swaps</button>
+    <pre id="swapOutput"></pre>
+  </div>
+
+  <div class="box hidden" id="adminBox">
+    <h2>Admin – Moderation</h2>
+    <button onclick="getPendingItems()">List Pending Items</button>
+    <pre id="pendingOutput"></pre>
+    <input id="moderateItemId" placeholder="Item ID" />
+    <button onclick="approveItem()">Approve</button>
+    <button onclick="deleteItem()">Delete</button>
+    <hr/>
+    <button onclick="listUsers()">List Users</button>
+    <pre id="usersOutput"></pre>
+  </div>
+
 <script>
-const API = 'http://localhost:5000/api';
+const API = 'http://localhost:5001/api';
 let token = '';
 
 function setToken(t) {
   token = t;
   document.getElementById('tokenStatus').innerText = 'JWT set';
   document.getElementById('itemBox').classList.remove('hidden');
+  document.getElementById('swapBox').classList.remove('hidden');
+  document.getElementById('adminBox').classList.remove('hidden');
 }
 
 async function signup() {
@@ -104,6 +134,70 @@ async function createItem() {
   } else {
     alert(JSON.stringify(data));
   }
+}
+
+async function requestSwap() {
+  const res = await fetch(API + '/swaps/request', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+    body: JSON.stringify({
+      itemId: document.getElementById('swapItemId').value,
+      method: document.getElementById('swapMethod').value,
+    }),
+  });
+  document.getElementById('swapOutput').innerText = JSON.stringify(await res.json(), null, 2);
+}
+
+async function approveSwap() {
+  const id = document.getElementById('approveSwapId').value;
+  const res = await fetch(API + '/swaps/' + id + '/approve', {
+    method: 'PUT',
+    headers: { Authorization: 'Bearer ' + token },
+  });
+  document.getElementById('swapOutput').innerText = JSON.stringify(await res.json(), null, 2);
+}
+
+async function getMySwaps() {
+  const res = await fetch(API + '/swaps/mine', {
+    headers: { Authorization: 'Bearer ' + token },
+  });
+  document.getElementById('swapOutput').innerText = JSON.stringify(await res.json(), null, 2);
+}
+
+// ----- Admin -----
+async function getPendingItems() {
+  const res = await fetch(API + '/admin/items/pending', {
+    headers: { Authorization: 'Bearer ' + token },
+  });
+  document.getElementById('pendingOutput').innerText = JSON.stringify(await res.json(), null, 2);
+}
+
+async function approveItem() {
+  const id = document.getElementById('moderateItemId').value;
+  const res = await fetch(API + '/admin/items/' + id + '/approve', {
+    method: 'PUT',
+    headers: { Authorization: 'Bearer ' + token },
+  });
+  document.getElementById('pendingOutput').innerText = JSON.stringify(await res.json(), null, 2);
+}
+
+async function deleteItem() {
+  const id = document.getElementById('moderateItemId').value;
+  const res = await fetch(API + '/admin/items/' + id, {
+    method: 'DELETE',
+    headers: { Authorization: 'Bearer ' + token },
+  });
+  document.getElementById('pendingOutput').innerText = JSON.stringify(await res.json(), null, 2);
+}
+
+async function listUsers() {
+  const res = await fetch(API + '/admin/users', {
+    headers: { Authorization: 'Bearer ' + token },
+  });
+  document.getElementById('usersOutput').innerText = JSON.stringify(await res.json(), null, 2);
 }
 </script>
 </body>
