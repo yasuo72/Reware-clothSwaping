@@ -139,7 +139,7 @@ export default function Landing() {
                 <Card 
                   key={item.id} 
                   className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white cursor-pointer"
-                  onClick={() => setLocation(`/product/${item.id}`)}
+                  onClick={() => setLocation(`/items/${item.id}`)}
                 >
                   <div className="aspect-[3/4] overflow-hidden">
                     <img 
@@ -236,7 +236,7 @@ export default function Landing() {
               <Card 
                 key={`new-${item.id}`} 
                 className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
-                onClick={() => setLocation(`/product/${item.id}`)}
+                onClick={() => setLocation(`/items/${item.id}`)}
               >
                 <div className="aspect-[3/4] overflow-hidden">
                   <img 
