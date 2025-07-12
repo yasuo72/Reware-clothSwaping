@@ -5,10 +5,27 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
+// Type definition for items returned from /api/items/featured
+interface FeaturedItem {
+  id: number | string;
+  title: string;
+  imageUrls?: string[];
+  category: string;
+  condition: string;
+  pointValue: string;
+}
+
 export default function Landing() {
   const [, setLocation] = useLocation();
-  const { data: featuredItems = [] } = useQuery({
+  const { data: featuredItems = [] } = useQuery<FeaturedItem[]>({
     queryKey: ["/api/items/featured"],
+    queryFn: async () => {
+      const res = await fetch("/api/items/featured");
+      if (!res.ok) {
+        throw new Error("Failed to fetch featured items");
+      }
+      return res.json();
+    },
   });
 
   // Sample data for display purposes

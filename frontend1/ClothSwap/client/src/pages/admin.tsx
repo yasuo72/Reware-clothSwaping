@@ -18,6 +18,8 @@ import {
   AlertCircle
 } from "lucide-react";
 import { useState } from "react";
+import { Item, AdminStats } from "@/types";
+import { fetcher } from "@/lib/fetcher";
 
 export default function Admin() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -39,14 +41,16 @@ export default function Admin() {
     }
   }, [isAuthenticated, isLoading, user, toast]);
 
-  const { data: stats } = useQuery({
+  const { data: stats } = useQuery<AdminStats>({
     queryKey: ["/api/admin/stats"],
+    queryFn: () => fetcher<AdminStats>("/api/admin/stats"),
     enabled: isAuthenticated && user?.isAdmin,
     retry: false,
   });
 
-  const { data: pendingItems = [], isLoading: itemsLoading } = useQuery({
+  const { data: pendingItems = [], isLoading: itemsLoading } = useQuery<Item[]>({
     queryKey: ["/api/admin/pending-items"],
+    queryFn: () => fetcher<Item[]>("/api/admin/pending-items"),
     enabled: isAuthenticated && user?.isAdmin,
     retry: false,
   });

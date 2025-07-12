@@ -75,7 +75,7 @@ export default function AddItemModal({ open, onOpenChange }: AddItemModalProps) 
       
       // Add form fields
       Object.entries(data).forEach(([key, value]) => {
-        if (key === 'tags' && value) {
+        if (key === 'tags' && typeof value === 'string' && value) {
           // Convert comma-separated tags to array
           const tagsArray = value.split(',').map(tag => tag.trim()).filter(Boolean);
           formData.append('tags', tagsArray.join(','));
@@ -301,9 +301,13 @@ export default function AddItemModal({ open, onOpenChange }: AddItemModalProps) 
                   <FormItem>
                     <FormLabel>Brand</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="e.g., Levi's" 
-                        {...field} 
+                      <Input
+                        placeholder="e.g., Levi's"
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        name={field.name}
                         className="focus:ring-brand-green focus:border-brand-green"
                       />
                     </FormControl>

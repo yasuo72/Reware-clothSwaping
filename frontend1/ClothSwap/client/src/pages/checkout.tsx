@@ -11,6 +11,8 @@ import { ArrowLeft, CreditCard, Wallet } from "lucide-react";
 import { useState, useEffect } from "react";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { CartItem } from '@/types';
+import { fetcher } from '@/lib/fetcher';
 
 // Load Stripe (we'll add the key through environment variables)
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || '');
@@ -78,7 +80,7 @@ function CheckoutForm({ cartItems, totalPoints }: { cartItems: any[], totalPoint
         }))
       });
 
-      const { clientSecret } = response;
+      const { clientSecret } = await response.json() as { clientSecret: string };
 
       // Confirm payment
       const result = await stripe.confirmCardPayment(clientSecret, {
@@ -214,8 +216,9 @@ export default function Checkout() {
   const { isAuthenticated, isLoading: authLoading, user } = useAuth();
 
   // Fetch cart items
-  const { data: cartItems = [], isLoading } = useQuery({
+  const { data: cartItems = [], isLoading } = useQuery<CartItem[]>({
     queryKey: ["/api/cart"],
+    queryFn: () => fetcher<CartItem[]>("/api/cart"),
     enabled: !authLoading && isAuthenticated,
   });
 
@@ -254,7 +257,7 @@ export default function Checkout() {
     );
   }
 
-  const totalPoints = cartItems.reduce((sum: number, item: any) => 
+  const totalPoints = cartItems.reduce((sum: number, item: CartItem) => 
     sum + (item.item.pointValue * item.quantity), 0
   );
 
@@ -284,7 +287,7 @@ export default function Checkout() {
                 <CardTitle>Order Summary</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {cartItems.map((cartItem: any) => (
+                {cartItems.map((cartItem: CartItem) => (
                   <div key={cartItem.id} className="flex items-center space-x-4">
                     <img 
                       src={cartItem.item.imageUrls?.[0] || "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=80&h=80&fit=crop"} 
@@ -313,11 +316,11 @@ export default function Checkout() {
                 {user && (
                   <div className="bg-blue-50 p-4 rounded-lg">
                     <p className="text-sm text-blue-800">
-                      Your current balance: <span className="font-bold">{user.points} points</span>
+                      Your current balance: <span className="font-bold">{user.points ?? 0} points</span>
                     </p>
-                    {user.points < totalPoints && (
+                    {(user.points ?? 0) < totalPoints && (
                       <p className="text-sm text-red-600 mt-1">
-                        Insufficient points. You need {totalPoints - user.points} more points.
+                        Insufficient points. You need {totalPoints - (user.points ?? 0)} more points.
                       </p>
                     )}
                   </div>

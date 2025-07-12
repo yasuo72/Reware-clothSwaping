@@ -20,6 +20,8 @@ import {
   Edit
 } from "lucide-react";
 import { useState } from "react";
+import { Item, Transaction } from "@/types";
+import { fetcher } from "@/lib/fetcher";
 
 export default function Home() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -41,19 +43,19 @@ export default function Home() {
     }
   }, [isAuthenticated, isLoading, toast]);
 
-  const { data: myItems = [], isLoading: itemsLoading } = useQuery({
+  const { data: myItems = [], isLoading: itemsLoading } = useQuery<Item[]>({
     queryKey: ["/api/my-items"],
     enabled: isAuthenticated,
     retry: false,
   });
 
-  const { data: swaps = [] } = useQuery({
+  const { data: swaps = [] } = useQuery<any[]>({
     queryKey: ["/api/swaps"],
     enabled: isAuthenticated,
     retry: false,
   });
 
-  const { data: transactions = [] } = useQuery({
+  const { data: transactions = [] } = useQuery<Transaction[]>({
     queryKey: ["/api/point-transactions"],
     enabled: isAuthenticated,
     retry: false,

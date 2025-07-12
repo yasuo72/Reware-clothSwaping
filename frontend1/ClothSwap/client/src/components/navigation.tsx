@@ -5,14 +5,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Recycle, Bell, Coins, ShoppingCart } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { CartItem } from "@/types";
+import { fetcher } from "@/lib/fetcher";
 
 export default function Navigation() {
   const { isAuthenticated, user, isLoading } = useAuth();
   const [location] = useLocation();
   
   // Get cart items count for authenticated users
-  const { data: cartItems = [] } = useQuery({
-    queryKey: ['/api/cart'],
+  const { data: cartItems = [] } = useQuery<CartItem[]>({
+    queryKey: ["cart"],
+    queryFn: () => fetcher<CartItem[]>("/api/cart"),
     enabled: isAuthenticated,
     retry: false,
   });
@@ -82,11 +85,11 @@ export default function Navigation() {
           <div className="flex items-center space-x-4">
             {!isAuthenticated ? (
               <div className="flex items-center space-x-4">
-                <a href="/api/login" className="text-slate-600 hover:text-brand-green transition-colors">
+                <a href="/login" className="text-slate-600 hover:text-brand-green transition-colors">
                   Sign In
                 </a>
                 <Button asChild className="bg-brand-green hover:bg-green-700">
-                  <a href="/api/login">Get Started</a>
+                  <a href="/register">Get Started</a>
                 </Button>
               </div>
             ) : (

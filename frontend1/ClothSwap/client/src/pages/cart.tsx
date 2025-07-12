@@ -5,9 +5,27 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { fetcher } from "@/lib/fetcher";
 import { apiRequest } from "@/lib/queryClient";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { ArrowLeft, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+
+// -------------------------------------------------------------
+// Types
+// -------------------------------------------------------------
+export interface CartItem {
+  id: number;
+  itemId: number;
+  quantity: number;
+  item: {
+    title: string;
+    category: string;
+    size: string;
+    pointValue: number;
+    imageUrls?: string[];
+  };
+}
+
 import { useState, useEffect } from "react";
 
 export default function Cart() {
@@ -17,8 +35,9 @@ export default function Cart() {
   const queryClient = useQueryClient();
 
   // Fetch cart items
-  const { data: cartItems = [], isLoading } = useQuery({
-    queryKey: ["/api/cart"],
+  const { data: cartItems = [], isLoading } = useQuery<CartItem[]>({
+    queryKey: ["cart"],
+    queryFn: () => fetcher<CartItem[]>("/api/cart"),
     enabled: !authLoading && isAuthenticated,
   });
 

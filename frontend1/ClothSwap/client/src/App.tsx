@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import Landing from "@/pages/landing";
+import Login from "@/pages/login";
+import Register from "@/pages/register";
 import Home from "@/pages/home";
 import BrowseItems from "@/pages/browse-items";
 import ItemDetail from "@/pages/item-detail";
@@ -22,19 +24,25 @@ function Router() {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <Switch>
+        {/* Public vs. authenticated routes */}
         {isLoading || !isAuthenticated ? (
-          <Route path="/" component={Landing} />
+          <>
+            <Route path="/" component={Landing} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+          </>
         ) : (
           <>
             <Route path="/" component={Home} />
             <Route path="/browse" component={BrowseItems} />
-            <Route path="/items/:id" component={ItemDetail} />
             <Route path="/product/:id" component={ProductDetail} />
             <Route path="/cart" component={Cart} />
             <Route path="/checkout" component={Checkout} />
             {(user as any)?.isAdmin && <Route path="/admin" component={Admin} />}
           </>
         )}
+        {/* Item detail route is accessible to everyone */}
+        <Route path="/items/:id" component={ItemDetail} />
         <Route component={NotFound} />
       </Switch>
     </div>

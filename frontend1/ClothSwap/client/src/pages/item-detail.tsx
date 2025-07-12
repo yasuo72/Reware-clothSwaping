@@ -22,15 +22,30 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+interface Item {
+  id: number;
+  ownerId: number;
+  title: string;
+  description: string;
+  category: string;
+  size: string;
+  condition: string;
+  brand?: string;
+  pointValue: number;
+  status: string;
+  imageUrls?: string[];
+  tags?: string[];
+}
+
 export default function ItemDetail() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const { user } = useAuth();
   const { toast } = useToast();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [swapDialogOpen, setSwapDialogOpen] = useState(false);
   const [swapMessage, setSwapMessage] = useState("");
 
-  const { data: item, isLoading } = useQuery({
+  const { data: item, isLoading } = useQuery<Item | null>({
     queryKey: ["/api/items", id],
     enabled: !!id,
   });
@@ -151,8 +166,8 @@ export default function ItemDetail() {
     );
   }
 
-  const canRedeem = user && user.points >= item.pointValue;
-  const isOwner = user && user.id === item.ownerId;
+  const canRedeem = !!user?.points && !!item && user.points >= item.pointValue;
+  const isOwner = !!user?.id && !!item && user.id === item.ownerId;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -311,7 +326,7 @@ export default function ItemDetail() {
                   
                   {!canRedeem && user && (
                     <p className="text-sm text-red-600 text-center">
-                      You need {item.pointValue - user.points} more points to redeem this item
+                      You need {item.pointValue - (user.points ?? 0)} more points to redeem this item
                     </p>
                   )}
                   
