@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ReWear Demo Frontend</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input, select, button, textarea { margin: 4px 0; padding: 6px; width: 100%; }
+    .box { border: 1px solid #ddd; padding: 20px; margin-bottom: 30px; max-width: 500px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1>ReWear Backend Demo</h1>
+
+  <div class="box" id="authBox">
+    <h2>Signup / Login</h2>
+    <input id="name" placeholder="Name (signup only)" />
+    <input id="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button onclick="signup()">Signup</button>
+    <button onclick="login()">Login</button>
+    <p id="tokenStatus"></p>
+  </div>
+
+  <div class="box hidden" id="itemBox">
+    <h2>Create Item</h2>
+    <input id="title" placeholder="Title" />
+    <textarea id="description" placeholder="Description"></textarea>
+    <select id="category">
+      <option value="shirt">Shirt</option>
+      <option value="pants">Pants</option>
+      <option value="shoes">Shoes</option>
+    </select>
+    <input id="type" placeholder="Type (e.g. men, women)" />
+    <input id="size" placeholder="Size" />
+    <input id="condition" placeholder="Condition" />
+    <input id="images" type="file" multiple accept="image/*" />
+    <button onclick="createItem()">Upload Item</button>
+    <p id="uploadStatus"></p>
+  </div>
+
+<script>
+const API = 'http://localhost:5000/api';
+let token = '';
+
+function setToken(t) {
+  token = t;
+  document.getElementById('tokenStatus').innerText = 'JWT set';
+  document.getElementById('itemBox').classList.remove('hidden');
+}
+
+async function signup() {
+  const res = await fetch(API + '/auth/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value,
+    }),
+  });
+  const data = await res.json();
+  if (res.ok) setToken(data.token);
+  else alert(JSON.stringify(data));
+}
+
+async function login() {
+  const res = await fetch(API + '/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value,
+    }),
+  });
+  const data = await res.json();
+  if (res.ok) setToken(data.token);
+  else alert(JSON.stringify(data));
+}
+
+async function createItem() {
+  const fd = new FormData();
+  fd.append('title', document.getElementById('title').value);
+  fd.append('description', document.getElementById('description').value);
+  fd.append('category', document.getElementById('category').value);
+  fd.append('type', document.getElementById('type').value);
+  fd.append('size', document.getElementById('size').value);
+  fd.append('condition', document.getElementById('condition').value);
+
+  const files = document.getElementById('images').files;
+  for (let i = 0; i < files.length; i++) {
+    fd.append('images', files[i]);
+  }
+
+  const res = await fetch(API + '/items', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+    body: fd,
+  });
+  const data = await res.json();
+  if (res.ok) {
+    document.getElementById('uploadStatus').innerText = 'Uploaded! ID: ' + data._id;
+  } else {
+    alert(JSON.stringify(data));
+  }
+}
+</script>
+</body>
+</html>
